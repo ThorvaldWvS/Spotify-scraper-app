@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Scraper App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Spotify Scraper App</h1>
+        <form action="/set_credentials" method="post">
+            <label for="client_id">Spotify Client ID:</label>
+            <input type="text" id="client_id" name="client_id" required>
+            <label for="client_secret">Spotify Client Secret:</label>
+            <input type="text" id="client_secret" name="client_secret" required>
+            <button type="submit">Set Credentials</button>
+        </form>
+        <form action="/fetch_songs" method="post">
+            <label for="filter_type">Select Filter:</label>
+            <select id="filter_type" name="filter_type" required>
+                <option value="top_short">Top Listened Songs (Short Term)</option>
+                <option value="top_medium">Top Listened Songs (Medium Term)</option>
+                <option value="top_long">Top Listened Songs (Long Term)</option>
+                <option value="liked_songs">Liked Songs</option>
+                <option value="listening_profile">Listening Profile</option>
+            </select>
+            <button type="submit">Fetch Songs</button>
+        </form>
+        <div id="songs">
+            {% if songs %}
+                <h2>Fetched Songs</h2>
+                <ul>
+                    {% for song in songs %}
+                        <li>
+                            <strong>{{ song.name }}</strong> by {{ song.artist }}<br>
+                            Album: {{ song.album }}<br>
+                            Release Date: {{ song.release_date }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
