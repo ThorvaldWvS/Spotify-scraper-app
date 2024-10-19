@@ -10,7 +10,9 @@ sp = None
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    success_message = session.pop('success_message', None)
+    redirect_uri = url_for('redirect_uri', _external=True)
+    return render_template('index.html', success_message=success_message, redirect_uri=redirect_uri)
 
 @app.route('/set_credentials', methods=['POST'])
 def set_credentials():
@@ -20,7 +22,8 @@ def set_credentials():
     redirect_uri = url_for('redirect_uri', _external=True)
     sp_oauth = SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
     session['sp_oauth'] = sp_oauth
-    return "Credentials set successfully"
+    session['success_message'] = f"Credentials set successfully. Redirect URI: {redirect_uri}"
+    return redirect(url_for('index'))
 
 @app.route('/redirect_uri')
 def redirect_uri():
@@ -29,6 +32,7 @@ def redirect_uri():
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
     sp = spotipy.Spotify(auth=token_info['access_token'])
+    session['success_message'] = "Spotify authorization successful!"
     return redirect(url_for('index'))
 
 @app.route('/fetch_songs', methods=['POST'])

@@ -27,6 +27,16 @@
             </select>
             <button type="submit">Fetch Songs</button>
         </form>
+        <div id="redirect_uri">
+            <h2>Redirect URI</h2>
+            <p>{{ redirect_uri }}</p>
+        </div>
+        <div id="success_message">
+            {% if success_message %}
+                <h2>Success</h2>
+                <p>{{ success_message }}</p>
+            {% endif %}
+        </div>
         <div id="songs">
             {% if songs %}
                 <h2>Fetched Songs</h2>

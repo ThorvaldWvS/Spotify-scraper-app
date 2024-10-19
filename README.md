@@ -42,5 +42,25 @@ A webapp to scrape songs different metrics and make custom playlists
 
 1. Open your web browser and go to `http://127.0.0.1:5000`
 2. Enter your Spotify API key and client secret
-3. Select the filter for scraping songs (e.g., top listened songs from short, medium, or long periods, liked songs, listening profiles)
-4. Click "Fetch Songs" to display the fetched songs and information
+3. Copy the provided redirect URI from the website and paste it into the Spotify developer dashboard
+4. Select the filter for scraping songs (e.g., top listened songs from short, medium, or long periods, liked songs, listening profiles)
+5. Click "Fetch Songs" to display the fetched songs and information
+
+## Testing
+
+To test the code, you can use the following terminal commands:
+
+1. Run the Flask development server:
+   ```
+   flask run
+   ```
+
+2. Use `curl` to test the `/set_credentials` endpoint:
+   ```
+   curl -X POST -F "client_id=your_client_id" -F "client_secret=your_client_secret" http://127.0.0.1:5000/set_credentials
+   ```
+
+3. Use `curl` to test the `/fetch_songs` endpoint:
+   ```
+   curl -X POST -F "filter_type=top_short" http://127.0.0.1:5000/fetch_songs
+   ```
